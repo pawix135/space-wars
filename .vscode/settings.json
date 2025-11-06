@@ -1,9 +1,0 @@
-{
-  "files.associations": {
-    "*.css": "tailwindcss",
-    "stdio.h": "c",
-    "game.h": "c",
-    "player.h": "c",
-    "stdlib.h": "c"
-  }
-}
