@@ -12,8 +12,9 @@ typedef struct Game{
   bool paused;
 } Game;
 
-Game* CreateGame(int monitorId);
+Game* CreateGame();
 void RunGame(Game* game);
+void HandleResize(Game* game);
 void DrawGame(Game* game);
 void GameLoop(Game* game);
 void DestroyGame(Game* game);

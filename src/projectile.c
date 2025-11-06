@@ -1,7 +1,6 @@
 #include "projectile.h"
 #include "config.h"
 
-
 Projectile* CreateProjectile(Vector2 pos, float speed){
   Projectile* projectile = (Projectile*)malloc(sizeof(Projectile));
   projectile->pos = pos;

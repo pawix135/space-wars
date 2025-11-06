@@ -1,11 +1,15 @@
 #pragma once
+#include "raylib.h"
 
 typedef struct GameWindow {
-  int w;
-  int h;
+  int windowW;
+  int windowH;
+  int screenW;
+  int screenH;
 } GameWindow;
 
-GameWindow* InitGameWindow(int monitor);
+GameWindow* InitGameWindow(int monitorId);
+void UpdateGameWindowSize(GameWindow* gw);
 void DestroyGameWindow(GameWindow* gw);
 
 

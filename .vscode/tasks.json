@@ -1,9 +1,8 @@
 {
-  // Task to build the project using build.exe located in the workspace root.
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Build with build.exe",
+      "label": "Build",
       "type": "shell",
       "command": "./build.exe",
       "args": [],
@@ -17,6 +16,5 @@
       },
       "problemMatcher": "$gcc"
     },
-    
   ]
 }

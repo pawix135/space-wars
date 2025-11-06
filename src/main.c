@@ -11,16 +11,6 @@ int main(void){
   
   Game* game = CreateGame(GetCurrentMonitor());
 
-  // TODO: Move it to the game_window module
-  int windowWidth = game->gw->w * .75;
-  int windowHeight = game->gw->h * .75;
-  int posX = (game->gw->w - windowWidth) / 2;
-  int posY = (game->gw->h - windowHeight) / 2;
-  SetWindowSize(windowWidth, windowHeight);
-  SetWindowPosition(posX, posY);
-  ClearWindowState(FLAG_WINDOW_UNDECORATED);
-  SetTargetFPS(144);
-  
   while (!WindowShouldClose()){
     RunGame(game);
   }

@@ -1,14 +1,15 @@
 #include "game.h"
 #include <stdlib.h>
 
-Game* CreateGame(int monitorId){
-  Game* game = (Game*)malloc(sizeof(Game));
-  game->player = CreatePlayer();
-  game->projectiles = InitProjectiles(game->projectiles);
-  game->gw = InitGameWindow(monitorId);
-  game->sounds = InitializeSounds();
-  game->paused = false;
-  return game;
+Game* CreateGame(){
+  Game* g = (Game*)malloc(sizeof(Game));
+  g->gw = InitGameWindow(GetCurrentMonitor());
+  g->player = CreatePlayer();
+  UpdatePlayerPosition(g->player, CalcInitPlayerPosition(g->gw, g->player));
+  g->projectiles = InitProjectiles(g->projectiles);
+  g->sounds = InitializeSounds();
+  g->paused = false;
+  return g;
 }
 
 void RunGame(Game* g){
@@ -17,45 +18,66 @@ void RunGame(Game* g){
 } 
 
 void DrawGame(Game* g){
+
+  HandleResize(g);
+  
   BeginDrawing();
   ClearBackground(BLACK);
+
+  DrawPlayer(g->player);
+
   if(g->paused == false){
-    DrawPlayer(g->player);
-  }else {
     DrawText("Game Paused", 200, 20, 40, RED);
   }
+  
   EndDrawing();
 }
 
-void GameLoop(Game* game){
+void GameLoop(Game* g){
+
   if(IsKeyPressed(KEY_P)){
-    game->paused = !game->paused;
+    g->paused = !g->paused;
+  }
+  
+  // Stop all the calculations if the game is paused
+  if(g->paused){
+    return;
+  }
+
+  UpdatePlayer(g->player, g->gw);
+
+}
+
+void HandleResize(Game* g){
+  if (IsWindowResized()){
+    UpdateGameWindowSize(g->gw);
+    UpdatePlayerPosition(g->player, CalcInitPlayerPosition(g->gw, g->player));
   }
 }
 
-void DestroyGame(Game* game){
-  if(game->player != NULL){
-    DestroyPlayer(game->player);
-    game->player = NULL;
+void DestroyGame(Game* g){
+  if(g->player != NULL){
+    DestroyPlayer(g->player);
+    g->player = NULL;
   }
   
-  if(game->projectiles != NULL){
-    DestroyProjectiles(game->projectiles);
-    game->projectiles = NULL;
+  if(g->projectiles != NULL){
+    DestroyProjectiles(g->projectiles);
+    g->projectiles = NULL;
   }
 
-  if(game->gw != NULL){
-    DestroyGameWindow(game->gw);
-    game->gw = NULL;
+  if(g->gw != NULL){
+    DestroyGameWindow(g->gw);
+    g->gw = NULL;
   }
 
-  if(game->sounds != NULL){
-    DestroySounds(game->sounds);
-    game->sounds = NULL;
+  if(g->sounds != NULL){
+    DestroySounds(g->sounds);
+    g->sounds = NULL;
   }
 
-  if(game != NULL){
-    free(game);
+  if(g != NULL){
+    free(g);
     printf("Game memory freed\n");
   }
 

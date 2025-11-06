@@ -11,7 +11,6 @@ int main(int argc, char **argv){
   Nob_Cmd cmd = {0};
 
   if (!nob_mkdir_if_not_exists(BUILD_FOLDER)) return 1;
-  
   nob_cc(&cmd);
   nob_cc_flags(&cmd);
 
@@ -20,12 +19,8 @@ int main(int argc, char **argv){
   nob_cmd_append(&cmd, "-Iinclude");
   nob_cmd_append(&cmd, "-Llib");
 
-#if defined(NOB_WIN32)
   nob_cc_output(&cmd, BUILD_FOLDER "space-war.exe");
-#elif defined(NOB_MACOS)
-  nob_cc_output(&cmd, BUILD_FOLDER "space-war");
 
-#endif
   nob_cc_inputs(&cmd, SRC_FOLDER "main.c");
   nob_cc_inputs(&cmd, SRC_FOLDER "sprite_loader.c");
   nob_cc_inputs(&cmd, SRC_FOLDER "sound_loader.c");

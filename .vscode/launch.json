@@ -1,48 +1,40 @@
 {
-  // Launch configurations: build then start the generated executable.
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Build (build.exe)",
-      "type": "cppvsdbg",
-      "request": "launch",
-      "program": "${workspaceFolder}/build.exe",
-      "args": [],
-      "cwd": "${workspaceFolder}",
-      "stopAtEntry": false,
-  "console": "integratedTerminal",
-      "preLaunchTask": "Build with build.exe"
-    },
-    {
-      "name": "Start game (run exe)",
+      "name": "Build & Run",
       "type": "cppvsdbg",
       "request": "launch",
       "program": "${workspaceFolder}/build/space-war.exe",
       "args": [],
       "cwd": "${workspaceFolder}",
       "stopAtEntry": false,
-  "console": "integratedTerminal",
-      "preLaunchTask": "Build with build.exe"
+      "console": "integratedTerminal",
+      "preLaunchTask": "Build"
     },
-        {
-          "name": "Debug (gdb)",
-          "type": "cppdbg",
-          "request": "launch",
-          "program": "${workspaceFolder}/build/space-war.exe",
-          "args": [],
-          "stopAtEntry": false,
-          "cwd": "${workspaceFolder}",
-          "environment": [],
-          "externalConsole": false,
-          "preLaunchTask": "Build with build.exe",
-          "MIMode": "gdb",
-          "miDebuggerPath": "C:/msys64/ucrt64/bin/gdb.exe"
-        }
-  ],
-  "compounds": [
     {
-      "name": "Build and Start",
-      "configurations": ["Build (build.exe)", "Start game (run exe)"]
-    }
-  ]
+      "name": "Debug",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/space-war.exe",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "preLaunchTask": "Build",
+      "MIMode": "gdb",
+      "miDebuggerPath": "C:/msys64/ucrt64/bin/gdb.exe"
+    },
+    {
+      "name": "Build",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build.exe",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "stopAtEntry": false,
+      "console": "integratedTerminal",
+    },
+  ],
 }
