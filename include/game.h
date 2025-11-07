@@ -6,6 +6,7 @@
 #include "projectile.h"
 #include "textures.h"
 #include "enemy.h"
+#include "background_stars.h"
 
 typedef struct Game{
   Player* player;
@@ -14,6 +15,7 @@ typedef struct Game{
   GameWindow* gw;
   Sounds* sounds;
   Textures* textures;
+  Star* stars;
   int score;
   bool paused;
   bool debugMode;

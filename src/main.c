@@ -13,6 +13,7 @@ int main(void){
   RunGame(game);
 
   DestroyGame(game);
+  
   CloseWindow();
   
   return 0;

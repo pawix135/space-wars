@@ -13,13 +13,12 @@ Game* CreateGame(){
   g->paused = false;
   g->enemies = InitEnemies(g->textures, g->gw);
   g->debugMode = false;
+  g->stars = InitBackgroundStars(g->gw);
   g->score = 0;
   return g;
 }
 
 void RunGame(Game* g){
-  
-  InitBackgroundStars(g->gw);
   
   while (!WindowShouldClose()){
     HandleResize(g);
@@ -33,7 +32,7 @@ void DrawGame(Game* g){
   BeginDrawing();
 
   ClearBackground(BLACK);
-  DrawBackgroundStars(g->gw);
+  DrawBackgroundStars(g->stars, g->gw);
 
   DrawPlayer(g->player, g->gw);
   DrawProjectiles(g->projectiles);
@@ -74,14 +73,14 @@ void GameLoop(Game* g){
   UpdateProjectiles(g->projectiles);
   UpdateEnemies(g->enemies, g->gw);
 
-  UpdateBackgroundStars(g->gw);
+  UpdateBackgroundStars(g->stars, g->gw);
 }
 
 void HandleResize(Game* g){
   if (IsWindowResized()){
     UpdateGameWindowSize(g->gw);
     UpdatePlayerPosition(g->player, CalcInitPlayerPosition(g->gw, g->player));
-    UpdateBackgroundStarsOnResize(g->gw);
+    UpdateBackgroundStarsOnResize(g->stars, g->gw);
   }
 }
 
@@ -101,9 +100,14 @@ void DestroyGame(Game* g){
     g->projectiles = NULL;
   }
 
-  if(g->gw != NULL){
-    DestroyGameWindow(g->gw);
-    g->gw = NULL;
+  if(g->enemies != NULL){
+    DestroyEnemy(g->enemies);
+    g->enemies = NULL;
+  }
+  
+  if(g->textures != NULL){
+    DestroyTextures(g->textures);
+    g->textures = NULL;
   }
 
   if(g->sounds != NULL){
@@ -111,17 +115,16 @@ void DestroyGame(Game* g){
     g->sounds = NULL;
   }
 
-  if(g->textures != NULL){
-    DestroyTextures(g->textures);
-    g->textures = NULL;
+  if(g->stars != NULL){
+    DestroyBackgroundStars(g->stars);
+    g->stars = NULL;
+  }
+  
+  if(g->gw != NULL){
+    DestroyGameWindow(g->gw);
+    g->gw = NULL;
   }
 
-  if(g->enemies != NULL){
-    DestroyEnemy(g->enemies);
-    g->enemies = NULL;
-  }
-
-  DestronyStars();
   free(g);
   printf("Game memory freed\n");
 

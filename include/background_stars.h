@@ -9,8 +9,8 @@ typedef struct Star
   float speed;
 } Star;
 
-void InitBackgroundStars(GameWindow* gw);
-void DrawBackgroundStars(GameWindow* gw);
-void UpdateBackgroundStarsOnResize(GameWindow *gw);
-void UpdateBackgroundStars(GameWindow *gw);
-void DestronyStars();
+Star* InitBackgroundStars(GameWindow* gw);
+void DrawBackgroundStars(Star* stars, GameWindow* gw);
+void UpdateBackgroundStarsOnResize(Star* stars, GameWindow *gw);
+void UpdateBackgroundStars(Star* stars, GameWindow *gw);
+void DestroyBackgroundStars(Star* stars);
