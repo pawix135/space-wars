@@ -1,7 +1,7 @@
 #include "raylib.h"
 #include <stdio.h>
 #include "game.h"
-
+#include "background_stars.h"
 int main(void){
   
   SetConfigFlags(FLAG_WINDOW_UNDECORATED | FLAG_WINDOW_RESIZABLE);
@@ -10,6 +10,7 @@ int main(void){
   InitAudioDevice();
   
   Game* game = CreateGame(GetCurrentMonitor());
+  InitBackgroundStars(game->gw);
 
   while (!WindowShouldClose()){
     RunGame(game);

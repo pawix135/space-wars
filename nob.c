@@ -29,6 +29,9 @@ int main(int argc, char **argv){
   nob_cc_inputs(&cmd, SRC_FOLDER "projectile.c");
   nob_cc_inputs(&cmd, SRC_FOLDER "game_window.c");
   nob_cc_inputs(&cmd, SRC_FOLDER "player.c");
+  nob_cc_inputs(&cmd, SRC_FOLDER "enemy.c");
+  nob_cc_inputs(&cmd, SRC_FOLDER "textures.c");
+  nob_cc_inputs(&cmd, SRC_FOLDER "background_stars.c");
   nob_cc_inputs(&cmd, SRC_FOLDER "game.c");
 
   nob_cmd_append(&cmd, "-lraylib");

@@ -1,5 +1,4 @@
 #pragma once
-#include "player.h"
 #include "raylib.h"
 
 typedef struct Projectile{
@@ -10,6 +9,9 @@ typedef struct Projectile{
 
 Projectile* CreateProjectile(Vector2 pos, float speed);
 Projectile* InitProjectiles();
-void UpdateProjectile(Projectile *projectile);
-void DrawProjectile(const Projectile *projectile);
+void UpdateProjectiles(Projectile *projectiles);
+void DrawProjectiles(Projectile *projectiles);
 void DestroyProjectiles(Projectile* projectiles);
+
+//FOR DEBUGGING
+int GetActiveProjectileCount(Projectile* projectiles);

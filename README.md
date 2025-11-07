@@ -31,25 +31,25 @@ Library, tools and art
 ### Phase 2: Shooting & Projectiles
 
 #### 4. Projectile Definition
-- [ ] Define the projectile (bullet) object with attributes (position, direction/velocity, active status).
-- [ ] Manage a collection of projectiles that can be reused.
+- [x] Define the projectile (bullet) object with attributes (position, direction/velocity, active status).
+- [x] Manage a collection of projectiles that can be reused.
 
 #### 5. Firing Mechanic
-- [ ] Detect the fire input (e.g., a key press).
-- [ ] Implement a **rate limit** to control how quickly the player can fire.
-- [ ] Create a new projectile, starting at the player's position, and set it moving upwards.
+- [x] Detect the fire input (e.g., a key press).
+- [x] Implement a **rate limit** to control how quickly the player can fire.
+- [x] Create a new projectile, starting at the player's position, and set it moving upwards.
 
 #### 6. Projectile Behavior
-- [ ] Update the position of all active projectiles each frame.
-- [ ] Display the active projectiles on the screen.
-- [ ] Remove projectiles once they travel off the top edge of the screen.
+- [x] Update the position of all active projectiles each frame.
+- [x] Display the active projectiles on the screen.
+- [x] Remove projectiles once they travel off the top edge of the screen.
 
 ---
 
 ### Phase 3: Enemies & Core Gameplay
 
 #### 7. Enemy Definition & Spawning
-- [ ] Define the enemy object with attributes (position, health, movement pattern, active status).
+- [x] Define the enemy object with attributes (position, health, movement pattern, active status).
 - [ ] Implement a system to continuously **spawn new enemies** at random horizontal positions at the top of the screen.
 
 #### 8. Enemy Behavior

@@ -1,5 +1,8 @@
 #include "projectile.h"
 #include "config.h"
+#include <stdlib.h>
+#include <stdio.h>
+
 
 Projectile* CreateProjectile(Vector2 pos, float speed){
   Projectile* projectile = (Projectile*)malloc(sizeof(Projectile));
@@ -19,20 +22,33 @@ Projectile* InitProjectiles(){
   return pArray;
 }
 
-void UpdateProjectile(Projectile* projectile){
-  if(projectile->isActive){
-    projectile->pos.y -= projectile->speed;
-    if(projectile->pos.y < 0){
-      printf("Projectile deactivated\n");
-      projectile->isActive = false;
+void UpdateProjectiles(Projectile* projectiles){
+  for(int i = 0; i < MAX_PROJECTILES; i++){
+    if(projectiles[i].isActive){
+      projectiles[i].pos.y -= projectiles[i].speed;
+      if(projectiles[i].pos.y < 0){
+        projectiles[i].isActive = false;
+      }
     }
   }
 }
 
-void DrawProjectile(const Projectile* projectile){
-  if(projectile->isActive){
-    DrawRectangle((int)projectile->pos.x, (int)projectile->pos.y, 5, 10, YELLOW);
+void DrawProjectiles(Projectile* projectiles){
+  for(int i = 0; i < MAX_PROJECTILES; i++){
+    if(projectiles[i].isActive){
+      DrawRectangle((int)projectiles[i].pos.x, (int)projectiles[i].pos.y, 5, 15, YELLOW);
+    }
   }
+}
+
+int GetActiveProjectileCount(Projectile* projectiles){
+  int count = 0;
+  for(int i = 0; i < MAX_PROJECTILES; i++){
+    if(projectiles[i].isActive){
+      count++;
+    }
+  }
+  return count;
 }
 
 void DestroyProjectiles(Projectile* projectiles){

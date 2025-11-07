@@ -3,13 +3,20 @@
 #include "projectile.h"
 #include "game_window.h"
 #include "sounds.h"
+#include "projectile.h"
+#include "textures.h"
+#include "enemy.h"
 
 typedef struct Game{
   Player* player;
   Projectile* projectiles;
+  Enemy* enemies;
   GameWindow* gw;
   Sounds* sounds;
+  Textures* textures;
+  int score;
   bool paused;
+  bool debugMode;
 } Game;
 
 Game* CreateGame();
