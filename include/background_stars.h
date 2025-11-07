@@ -11,5 +11,6 @@ typedef struct Star
 
 void InitBackgroundStars(GameWindow* gw);
 void DrawBackgroundStars(GameWindow* gw);
+void UpdateBackgroundStarsOnResize(GameWindow *gw);
 void UpdateBackgroundStars(GameWindow *gw);
 void DestronyStars();

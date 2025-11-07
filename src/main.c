@@ -1,20 +1,16 @@
 #include "raylib.h"
 #include <stdio.h>
 #include "game.h"
-#include "background_stars.h"
 int main(void){
   
   SetConfigFlags(FLAG_WINDOW_UNDECORATED | FLAG_WINDOW_RESIZABLE);
 
   InitWindow(800, 600, "Space War");
   InitAudioDevice();
-  
-  Game* game = CreateGame(GetCurrentMonitor());
-  InitBackgroundStars(game->gw);
 
-  while (!WindowShouldClose()){
-    RunGame(game);
-  }
+  Game* game = CreateGame(GetCurrentMonitor());  
+
+  RunGame(game);
 
   DestroyGame(game);
   CloseWindow();

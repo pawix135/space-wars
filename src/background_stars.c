@@ -14,6 +14,13 @@ void InitBackgroundStars(GameWindow* gw){
   }
 }
 
+void UpdateBackgroundStarsOnResize(GameWindow *gw){
+  for(int i = 0; i < BACKGROUND_STAR_COUNT; i++){
+    stars[i]->position = (Vector2){GetRandomValue(0, gw->windowW), GetRandomValue(0, gw->windowH)};
+    stars[i]->size = (Vector2){(int) GetRandomValue(1, 2), (int) GetRandomValue(1, 2)};
+  }
+}
+
 void UpdateBackgroundStars(GameWindow *gw){
   float dt = GetFrameTime();
   for(int i = 0; i < BACKGROUND_STAR_COUNT; i++){

@@ -18,15 +18,20 @@ Game* CreateGame(){
 }
 
 void RunGame(Game* g){
-  GameLoop(g);
-  DrawGame(g);
+  
+  InitBackgroundStars(g->gw);
+  
+  while (!WindowShouldClose()){
+    HandleResize(g);
+    GameLoop(g);
+    DrawGame(g);
+  }
+
 } 
 
 void DrawGame(Game* g){
-
-  HandleResize(g);
-  
   BeginDrawing();
+
   ClearBackground(BLACK);
   DrawBackgroundStars(g->gw);
 
@@ -76,6 +81,7 @@ void HandleResize(Game* g){
   if (IsWindowResized()){
     UpdateGameWindowSize(g->gw);
     UpdatePlayerPosition(g->player, CalcInitPlayerPosition(g->gw, g->player));
+    UpdateBackgroundStarsOnResize(g->gw);
   }
 }
 
