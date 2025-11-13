@@ -14,7 +14,7 @@ GameWindow *InitGameWindow(int monitorId) {
   SetWindowSize(size->windowW, size->windowH);
   SetWindowPosition(posX, posY);
   ClearWindowState(FLAG_WINDOW_UNDECORATED);
-  // SetTargetFPS(144);
+  SetTargetFPS(165);
   return size;
 }
 

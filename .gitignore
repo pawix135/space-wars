@@ -2,3 +2,6 @@ build/
 *.exe
 *.*.old
 .vscode/settings.json
+lib/libraylib.a
+lib/raylib.dll
+lib/libraylibdll.a

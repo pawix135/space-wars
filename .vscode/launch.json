@@ -3,38 +3,54 @@
   "configurations": [
     {
       "name": "Build & Run",
-      "type": "cppvsdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/build/space-war.exe",
       "args": [],
       "cwd": "${workspaceFolder}",
       "stopAtEntry": false,
       "console": "integratedTerminal",
-      "preLaunchTask": "Build"
+      "preLaunchTask": "Build",
+      "windows": {
+        "type": "cppvsdbg",
+        "program": "${workspaceFolder}/build/space-wars.exe"
+      },
+      "osx": {
+        "program": "${workspaceFolder}/build/space-wars"
+      }
     },
     {
       "name": "Debug",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/build/space-war.exe",
       "args": [],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
       "environment": [],
       "externalConsole": false,
       "preLaunchTask": "Build",
-      "MIMode": "gdb",
-      "miDebuggerPath": "C:/msys64/ucrt64/bin/gdb.exe"
+      "windows": {
+        "MIMode": "gdb",
+        "miDebuggerPath": "C:/msys64/ucrt64/bin/gdb.exe",
+        "program": "${workspaceFolder}/build/space-wars.exe"
+      },
+      "osx": {
+        "MIMode": "lldb",
+        "program": "${workspaceFolder}/build/space-wars"
+      }
     },
     {
       "name": "Build",
-      "type": "cppvsdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/build.exe",
       "args": [],
       "cwd": "${workspaceFolder}",
       "stopAtEntry": false,
       "console": "integratedTerminal",
-    },
-  ],
+      "windows": {
+        "type": "cppvsdbg",
+        "program": "${workspaceFolder}/build.bat"
+      },
+      "osx": {
+        "program": "${workspaceFolder}/build.sh"
+      }
+    }
+  ]
 }

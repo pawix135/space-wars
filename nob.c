@@ -1,6 +1,12 @@
 #define NOB_IMPLEMENTATION
-#include "nob.h"
 #define NOB_EXPERIMENTAL_DELETE_OLD
+#include "nob.h"
+
+#if !defined(_MSC_VER)
+  #define OUT "space-wars"
+#else
+  #define OUT "space-wars.exe"
+#endif
 
 #define BUILD_FOLDER "build/"
 #define SRC_FOLDER "src/"
@@ -13,17 +19,30 @@ int main(int argc, char **argv) {
 
   if (!nob_mkdir_if_not_exists(BUILD_FOLDER))
     return 1;
+
+#if !defined(_MSC_VER)
+  nob_cmd_append(&cmd, "clang"); 
+  nob_cmd_append(&cmd, "-Wall", "-Wextra", "-g", "-O3");
+  nob_cmd_append(&cmd, "-Iinclude");
+  nob_cmd_append(&cmd, "-L./lib"); 
+  nob_cmd_append(&cmd, "-lraylib", "-framework", "CoreVideo", "-framework", "IOKit", "-framework", "Cocoa", "-framework", "GLUT", "-framework", "OpenGL");
+#else 
   nob_cc(&cmd);
   nob_cc_flags(&cmd);
-
-  nob_cmd_append(&cmd, "-g");
-  nob_cmd_append(&cmd, "-O0");
   nob_cmd_append(&cmd, "-Iinclude");
   nob_cmd_append(&cmd, "-Llib");
+  nob_cmd_append(&cmd, "-g");
+  nob_cmd_append(&cmd, "-O0");
+  nob_cmd_append(&cmd, "-Llib");
+  nob_cmd_append(&cmd, "-lraylib");
+  nob_cmd_append(&cmd, "-lopengl32");
+  nob_cmd_append(&cmd, "-lgdi32");
+  nob_cmd_append(&cmd, "-lwinmm");
+  nob_cmd_append(&cmd, "-lm");
+  #endif
 
-  nob_cc_output(&cmd, BUILD_FOLDER "space-war.exe");
+  nob_cc_output(&cmd, BUILD_FOLDER OUT);
 
-  nob_cc_inputs(&cmd, SRC_FOLDER "main.c");
   nob_cc_inputs(&cmd, SRC_FOLDER "sprite_loader.c");
   nob_cc_inputs(&cmd, SRC_FOLDER "sound_loader.c");
   nob_cc_inputs(&cmd, SRC_FOLDER "extern_resources.c");
@@ -40,15 +59,11 @@ int main(int argc, char **argv) {
   nob_cc_inputs(&cmd, SRC_FOLDER "textures.c");
   nob_cc_inputs(&cmd, SRC_FOLDER "background_stars.c");
   nob_cc_inputs(&cmd, SRC_FOLDER "game.c");
-
-  nob_cmd_append(&cmd, "-lraylib");
-  nob_cmd_append(&cmd, "-lopengl32");
-  nob_cmd_append(&cmd, "-lgdi32");
-  nob_cmd_append(&cmd, "-lwinmm");
-  nob_cmd_append(&cmd, "-lm");
-
+  nob_cc_inputs(&cmd, SRC_FOLDER "main.c");
+  
   if (!nob_cmd_run(&cmd))
     return 1;
 
   return 0;
+
 }

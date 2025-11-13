@@ -5,8 +5,7 @@
 
 int main(void) {
 
-  SetConfigFlags(FLAG_WINDOW_UNDECORATED | FLAG_WINDOW_RESIZABLE |
-                 FLAG_VSYNC_HINT);
+  SetConfigFlags(FLAG_WINDOW_UNDECORATED | FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
 
   InitWindow(800, 600, "Space War");
   SetWindowMinSize(800, 600);

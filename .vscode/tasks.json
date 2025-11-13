@@ -4,7 +4,6 @@
     {
       "label": "Build",
       "type": "shell",
-      "command": "./build.exe",
       "args": [],
       "options": {
         "cwd": "${workspaceFolder}"
@@ -14,7 +13,13 @@
         "panel": "shared",
         "close": false
       },
-      "problemMatcher": "$gcc"
-    },
+      "problemMatcher": "$gcc",
+      "windows": {
+        "command": "./build.exe"
+      },
+      "osx": {
+        "command": "./build.sh"
+      }
+    }
   ]
 }
