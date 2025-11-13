@@ -1,0 +1,9 @@
+# .clang-format file
+---
+BasedOnStyle: LLVM
+BreakBeforeBraces: Attach
+IndentCaseLabels: false
+IndentWidth: 2
+AllowShortIfStatementsOnASingleLine: WithoutElse
+AlignArrayOfStructures: false
+...

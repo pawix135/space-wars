@@ -1,131 +1,183 @@
 #include "game.h"
-#include <stdlib.h>
 #include "background_stars.h"
+#include "menu.h"
+#include <stdio.h>
+#include <stdlib.h>
 
-Game* CreateGame(){
-  Game* g = (Game*)malloc(sizeof(Game));
+Game *CreateGame() {
+  Game *g = (Game *)malloc(sizeof(Game));
   g->gw = InitGameWindow(GetCurrentMonitor());
-  g->textures = LoadTextures();
-  g->player = CreatePlayer(g->textures);
+  g->assets = InitializeAssets();
+  g->player = CreatePlayer(g->assets->textures);
   UpdatePlayerPosition(g->player, CalcInitPlayerPosition(g->gw, g->player));
-  g->projectiles = InitProjectiles(g->projectiles);
-  g->sounds = InitializeSounds();
-  g->paused = false;
-  g->enemies = InitEnemies(g->textures, g->gw);
-  g->debugMode = false;
+  g->projectiles = InitProjectiles(g->assets->textures);
+  g->spawnTimer = 0.0f;
+  g->em =
+      InitEnemyManager(MAX_ENEMIES, g->gw, &g->assets->textures->enemyTexture);
+  g->wm = ZeroInitializeWaveManager();
   g->stars = InitBackgroundStars(g->gw);
-  g->score = 0;
+  g->config = CreateGameConfig();
   return g;
 }
 
-void RunGame(Game* g){
-  
-  while (!WindowShouldClose()){
+void RunGame(Game *g) {
+
+  while (g->config->isRunning) {
+    if (WindowShouldClose()) g->config->isRunning = false;
+
     HandleResize(g);
-    GameLoop(g);
-    DrawGame(g);
+
+    switch (g->config->currentScene) {
+    case SCENE_MENU:
+      DrawMenu(g->config, g->stars, g->gw);
+      break;
+    case SCENE_GAMEPLAY:
+      GameLoop(g);
+      DrawGame(g);
+      break;
+    default:
+      DrawMenu(g->config, g->stars, g->gw);
+      break;
+    }
   }
+}
 
-} 
-
-void DrawGame(Game* g){
+void DrawGame(Game *g) {
   BeginDrawing();
 
   ClearBackground(BLACK);
-  DrawBackgroundStars(g->stars, g->gw);
+  DrawBackgroundStars(g->stars);
 
   DrawPlayer(g->player, g->gw);
   DrawProjectiles(g->projectiles);
-  // DrawEnemies(g->enemies);
-  
-  if(g->debugMode){
-    DrawText("DEBUG MODE", 10, 10, 20, GREEN);
-    DrawFPS(g->gw->windowW - 80, 10);
-    char buffer[50];
-    int activeCount = GetActiveProjectileCount(g->projectiles);
-    sprintf(buffer, "Active Projectiles: %d", activeCount);
-    DrawText(buffer, 10, 40, 20, GREEN);
+  DrawEnemies(g->em, g->config);
+  DrawScore(g->config->score, g->gw);
+
+  if (g->config->paused == true) {
+    DrawText("PAUSED", g->gw->windowW / 2 - MeasureText("PAUSED", 40) / 2, 50,
+             40, RED);
+    DrawRectangle(g->gw->windowW / 2 - (g->gw->windowW / 3) / 2,
+                  g->gw->windowH / 2 - (g->gw->windowH / 3) / 2,
+                  g->gw->windowW / 3, g->gw->windowH / 3,
+                  (Color){255, 255, 255, 155});
   }
 
-  if(g->paused == true){
-    DrawText("Game Paused", g->gw->windowW/2-MeasureText("Game Paused", 40), 20, 40, RED);
+  if (g->config->debugMode) {
+    DrawDebug(g);
   }
 
   EndDrawing();
 }
 
-void GameLoop(Game* g){
+void DrawScore(int score, GameWindow *gw) {
+  const char *scoreText = TextFormat("Score: %d", score);
+  DrawText(scoreText, gw->windowW / 2 - MeasureText(scoreText, 20) / 2, 30, 20,
+           WHITE);
+}
 
-  if(IsKeyPressed(KEY_F3)){
-    g->debugMode = !g->debugMode;
+void GameLoop(Game *g) {
+
+  DebugMode(g);
+
+  if (IsKeyPressed(KEY_ESCAPE)) {
+    TogglePause(g->config);
   }
 
-  if(IsKeyPressed(KEY_P)){
-    g->paused = !g->paused;
-  }
-  
   // Stop all the calculations if the game is paused
-  if(g->paused){
+  if (g->config->paused) {
     return;
   }
 
-  UpdatePlayer(g->player, g->gw, g->projectiles);
-  UpdateProjectiles(g->projectiles);
-  UpdateEnemies(g->enemies, g->gw);
+  g->config->deltaTime = GetFrameTime();
 
-  UpdateBackgroundStars(g->stars, g->gw);
+  UpdatePlayer(g->player, g->gw, g->projectiles);
+  UpdateProjectiles(g->projectiles, g->em, g->gw, g->config->deltaTime);
+  UpdateWaveManager(g->wm, g->em, g->gw, g->config);
+  // UpdateEnemies(g->em, g->gw, g->config);
+  UpdateBackgroundStars(g->stars, g->gw, g->config->deltaTime);
 }
 
-void HandleResize(Game* g){
-  if (IsWindowResized()){
+void DebugMode(Game *g) {
+
+  if (IsKeyPressed(KEY_F3)) ToggleDebugMode(g->config);
+
+  if (!g->config->debugMode) return;
+
+  if (IsKeyDown(KEY_LEFT_CONTROL) && IsKeyPressed(KEY_H)) {
+    if (SpawnEnemy(g->em, g->gw) == NULL) {
+      TraceLog(LOG_DEBUG, "Failed to spawn enemy: EnemyManager is full.");
+    }
+  }
+}
+
+void DrawDebug(Game *g) {
+  DrawText("DEBUG MODE", 10, 10, 20, GREEN);
+  DrawFPS(g->gw->windowW - 80, 10);
+  char buffer[50];
+  sprintf(buffer, "Active Projectiles: %d",
+          GetActiveProjectileCount(g->projectiles));
+  DrawText(buffer, 10, 40, 20, GREEN);
+  sprintf(buffer, "Active Enemies: %d", g->em->activeCount);
+  DrawText(buffer, 10, 70, 20, GREEN);
+  sprintf(buffer, "Player Position: (%.2f, %.2f)", g->player->pos.x,
+          g->player->pos.y);
+  DrawText(buffer, 10, 100, 20, GREEN);
+}
+
+void HandleResize(Game *g) {
+  if (IsWindowResized()) {
     UpdateGameWindowSize(g->gw);
     UpdatePlayerPosition(g->player, CalcInitPlayerPosition(g->gw, g->player));
     UpdateBackgroundStarsOnResize(g->stars, g->gw);
   }
 }
 
-void DestroyGame(Game* g){
+void DestroyGame(Game *g) {
 
-  if(g == NULL){
+  if (g == NULL) {
     return;
   }
 
-  if(g->player != NULL){
+  if (g->player != NULL) {
     DestroyPlayer(g->player);
     g->player = NULL;
   }
-  
-  if(g->projectiles != NULL){
+
+  if (g->projectiles != NULL) {
     DestroyProjectiles(g->projectiles);
     g->projectiles = NULL;
   }
 
-  if(g->enemies != NULL){
-    DestroyEnemy(g->enemies);
-    g->enemies = NULL;
-  }
-  
-  if(g->textures != NULL){
-    DestroyTextures(g->textures);
-    g->textures = NULL;
+  if (g->em != NULL) {
+    DestroyEnemyManager(g->em);
+    g->em = NULL;
   }
 
-  if(g->sounds != NULL){
-    DestroySounds(g->sounds);
-    g->sounds = NULL;
-  }
-
-  if(g->stars != NULL){
+  if (g->stars != NULL) {
     DestroyBackgroundStars(g->stars);
     g->stars = NULL;
   }
-  
-  if(g->gw != NULL){
+
+  if (g->gw != NULL) {
     DestroyGameWindow(g->gw);
     g->gw = NULL;
   }
 
-  free(g);
-  printf("Game memory freed\n");
+  if (g->config != NULL) {
+    DestroyGameConfig(g->config);
+    g->config = NULL;
+  }
 
+  if (g->assets != NULL) {
+    DestroyAssets(g->assets);
+    g->assets = NULL;
+  }
+
+  if(g->wm != NULL) {
+    DestroyWaveManager(g->wm);
+    g->wm = NULL;
+  }
+
+  free(g);
+  TraceLog(LOG_DEBUG, "Game destroyed.");
 }

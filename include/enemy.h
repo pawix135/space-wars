@@ -1,21 +1,21 @@
 #pragma once
-#include "raylib.h"
-#include <stdbool.h>
-#include "textures.h"
+#include "game_config.h"
 #include "game_window.h"
+#include "raylib.h"
+#include "textures.h"
+#include <stdbool.h>
 
-typedef struct Enemy
-{
+typedef struct Enemy {
   int health;
-  Texture2D* sprite;
-  Vector2 position;
-  float speed;
-  Rectangle hitbox;
+  Texture2D *sprite;
+  Vector2 pos;
+  Vector2 vel;
   bool isActive;
 } Enemy;
 
-Enemy* InitEnemies(Textures* textures, GameWindow* gw);
-void DrawEnemies(Enemy *enemies);
-void RespawnEnemy(Enemy* enemeis, GameWindow* gw);
-void UpdateEnemies(Enemy* enemies, GameWindow* gw);
-void DestroyEnemy(Enemy *enemy);
+Enemy *ZeroInitializeEnemies(int capacity);
+bool IsEnemyOutOfBounds(Enemy *e, GameWindow *gw);
+void ResetEnemy(Enemy *e, GameWindow *gw);
+Rectangle GetEnemyHitbox(Enemy enemy);
+Vector2 EnemyRespawnCoordinates(Enemy *enemy, GameWindow *gw);
+void DestroyEnemies(Enemy *enemy);

@@ -90,3 +90,11 @@ Library, tools and art
 ### Game Completion
 - [ ] Conduct playtesting and adjust game parameters (speed, health, spawn rates) for balanced difficulty.
 - [ ] Finalize asset loading and memory cleanup.
+
+
+## STUFF TO LEARN 🤗
+- Linear interpolation
+- Angles(Radians)
+- Trigonometry
+- Vectors
+- Matrices

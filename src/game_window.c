@@ -1,11 +1,10 @@
 #include "game_window.h"
 #include <stdlib.h>
-#include <stdio.h>
 
 #define SCALE_FACTOR 0.75f
 
-GameWindow* InitGameWindow(int monitorId){ 
-  GameWindow* size = (GameWindow*)malloc(sizeof(GameWindow));
+GameWindow *InitGameWindow(int monitorId) {
+  GameWindow *size = (GameWindow *)malloc(sizeof(GameWindow));
   size->screenW = GetMonitorWidth(monitorId);
   size->screenH = GetMonitorHeight(monitorId);
   size->windowW = size->screenW * SCALE_FACTOR;
@@ -15,22 +14,22 @@ GameWindow* InitGameWindow(int monitorId){
   SetWindowSize(size->windowW, size->windowH);
   SetWindowPosition(posX, posY);
   ClearWindowState(FLAG_WINDOW_UNDECORATED);
-  SetTargetFPS(144);
+  // SetTargetFPS(144);
   return size;
 }
 
-void UpdateGameWindowSize(GameWindow* gw){
-  if(gw != NULL){
+void UpdateGameWindowSize(GameWindow *gw) {
+  if (gw != NULL) {
     gw->windowW = GetScreenWidth();
     gw->windowH = GetScreenHeight();
-    printf("Updated GameWindow size: width=%d, height=%d\n", gw->windowW, gw->windowH);
+    TraceLog(LOG_DEBUG, "GameWindow size updated: width=%d, height=%d\n",
+             gw->windowW, gw->windowH);
   }
 }
 
-void DestroyGameWindow(GameWindow* gw){
-  if(gw != NULL){
+void DestroyGameWindow(GameWindow *gw) {
+  if (gw != NULL) {
     free(gw);
-    printf("GameWindow memory freed\n");
+    TraceLog(LOG_DEBUG, "GameWindow destroyed.");
   }
 }
-
