@@ -2,7 +2,8 @@
 
 typedef enum {
   SCENE_MENU,
+  SCENE_HOWTOPLAY,
   SCENE_GAMEPLAY,
   SCENE_PAUSE,
-  SCENE_GAMEOVER
+  SCENE_WIN,
 } GameScene;

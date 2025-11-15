@@ -5,25 +5,21 @@
 
 int main(void) {
 
-  SetConfigFlags(FLAG_WINDOW_UNDECORATED | FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
+  SetConfigFlags(FLAG_WINDOW_UNDECORATED | FLAG_WINDOW_RESIZABLE);
+  InitWindow(800, 600, "Space Wars");
+  SetExitKey(KEY_NULL);
 
-  InitWindow(800, 600, "Space War");
-  SetWindowMinSize(800, 600);
+  InitAudioDevice();
+
   SetRandomSeed((unsigned int)time(NULL));
 
   SetTraceLogLevel(LOG_DEBUG);
 
-  InitAudioDevice();
-  SetExitKey(KEY_NULL);
-
   Game *game = CreateGame(GetCurrentMonitor());
-
   RunGame(game);
-
   DestroyGame(game);
 
   CloseAudioDevice();
   CloseWindow();
-
   return 0;
 }

@@ -5,20 +5,23 @@ Player *CreatePlayer(Textures *textures) {
   Player *player = (Player *)malloc(sizeof(Player));
   player->sprite = &textures->playerTexture;
   player->pos = (Vector2){0.0f, 0.0f};
-  player->speed = 5.0f;
-  player->health = 100;
+  player->vel = (Vector2){10.0f, 0.0f};
   player->isBoosted = false;
   player->lastFireTime = 0.0f;
   return player;
 }
 
-void UpdatePlayer(Player *player, GameWindow *gw, Projectile *projectiles) {
-  MovePlayer(player, gw);
+void UpdatePlayer(Player *player, GameWindow *gw, Projectile *projectiles, GameConfig *config) {
+  MovePlayer(player, gw, config);
   PlayerShoot(player, projectiles);
 }
 
-void MovePlayer(Player *player, GameWindow *gw) {
-  float speedMultiplier = player->isBoosted ? 2.0f : 1.0f;
+void MovePlayer(Player *player, GameWindow *gw, GameConfig *config) {
+
+  Vector2 movement = Vector2Scale(player->vel, 50.0f * config->deltaTime);
+  if(player->isBoosted){
+    movement = Vector2Scale(player->vel, 100.0f * config->deltaTime);
+  }
 
   if (IsKeyPressed(KEY_LEFT_SHIFT)) {
     player->isBoosted = true;
@@ -29,11 +32,10 @@ void MovePlayer(Player *player, GameWindow *gw) {
   }
 
   if ((IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT)) && player->pos.x > 0) {
-    player->pos.x -= player->speed * speedMultiplier;
+    player->pos = Vector2Subtract(player->pos, movement);
   }
-  if ((IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT)) &&
-      player->pos.x < (gw->windowW - player->sprite->width)) {
-    player->pos.x += player->speed * speedMultiplier;
+  if ((IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT)) && player->pos.x < (gw->windowW - player->sprite->width)) {
+    player->pos = Vector2Add(player->pos, movement);
   }
 }
 
@@ -63,30 +65,12 @@ Vector2 CalcInitPlayerPosition(GameWindow *gw, Player *player) {
   return pos;
 }
 
-void PlayerTakeDamage(Player *player, int damage) {
-  player->health -= damage;
-  if (player->health < 0) {
-    player->health = 0;
-  }
-}
-
 void UpdatePlayerPosition(Player *player, Vector2 newPos) {
   player->pos = newPos;
 }
 
-void DrawPlayerHealth(const Player *player, GameWindow *gw) {
-  int barWidth = gw->windowW * 0.9f;
-  int barPosX = gw->windowW / 2 - barWidth / 2;
-  int barPosY = gw->windowH - 60;
-  const char *hpText = TextFormat("%d", player->health);
-  DrawRectangle(barPosX, barPosY, barWidth, 40, RED);
-  DrawText(hpText, gw->windowW / 2 - MeasureText(hpText, 20), barPosY + 10, 20,
-           WHITE);
-}
-
-void DrawPlayer(const Player *player, GameWindow *gw) {
+void DrawPlayer(const Player *player) {
   DrawTexture(*player->sprite, (int)player->pos.x, (int)player->pos.y, WHITE);
-  DrawPlayerHealth(player, gw);
 }
 
 void DestroyPlayer(Player *player) {

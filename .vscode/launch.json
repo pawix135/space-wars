@@ -4,17 +4,17 @@
     {
       "name": "Build & Run",
       "request": "launch",
+      "type": "cppvsdbg",
       "args": [],
       "cwd": "${workspaceFolder}",
       "stopAtEntry": false,
       "console": "integratedTerminal",
       "preLaunchTask": "Build",
       "windows": {
-        "type": "cppvsdbg",
-        "program": "${workspaceFolder}/build/space-wars.exe"
+        "program": "${cwd}/build/space-wars.exe"
       },
       "osx": {
-        "program": "${workspaceFolder}/build/space-wars"
+        "program": "${cwd}/build/space-wars"
       }
     },
     {
@@ -40,16 +40,16 @@
     {
       "name": "Build",
       "request": "launch",
+      "type": "cppvsdbg",
       "args": [],
       "cwd": "${workspaceFolder}",
       "stopAtEntry": false,
       "console": "integratedTerminal",
       "windows": {
-        "type": "cppvsdbg",
-        "program": "${workspaceFolder}/build.bat"
+        "program": "${workspaceFolder}/nbuild.exe"
       },
       "osx": {
-        "program": "${workspaceFolder}/build.sh"
+        "program": "${workspaceFolder}/nbuild"
       }
     }
   ]

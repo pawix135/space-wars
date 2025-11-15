@@ -4,7 +4,6 @@
     {
       "label": "Build",
       "type": "shell",
-      "args": [],
       "options": {
         "cwd": "${workspaceFolder}"
       },
@@ -15,10 +14,10 @@
       },
       "problemMatcher": "$gcc",
       "windows": {
-        "command": "./build.exe"
+        "command": "${cwd}\\nbuild.exe"
       },
       "osx": {
-        "command": "./build.sh"
+        "command": "${cwd}/nbuild"
       }
     }
   ]

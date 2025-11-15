@@ -13,7 +13,7 @@
 // Waves
 #define MAX_WAVES 10
 
-#define MAX_ENEMIES 20
+#define MAX_ENEMIES 100
 #define ENEMY_SPEED 10.0f
 #define ENEMY_RESPAWN_TIME 0.5f
 

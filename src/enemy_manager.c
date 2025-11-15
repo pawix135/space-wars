@@ -89,10 +89,10 @@ void DrawEnemies(EnemyManager *manager, GameConfig *config) {
 
     DrawTextureEx(*enemy->sprite, enemy->pos, 0.0f, 0.5f, WHITE);
     DrawRectangle(enemy->pos.x,
-                  enemy->pos.y + enemy->sprite->height * 0.5f + 1.0f,
+                  enemy->pos.y + enemy->sprite->height * 0.6f + 1.0f,
                   enemy->sprite->width * 0.5f, 5, RED);
     DrawRectangle(
-        enemy->pos.x, enemy->pos.y + enemy->sprite->height * 0.5f + 1.0f,
+        enemy->pos.x, enemy->pos.y + enemy->sprite->height * 0.6f + 1.0f,
         (enemy->sprite->width * 0.5f) * ((float)enemy->health / 100.0f), 5,
         GREEN);
     if (config->debugMode) {
@@ -102,10 +102,12 @@ void DrawEnemies(EnemyManager *manager, GameConfig *config) {
   }
 }
 
-void ResetEnemyManager(EnemyManager *manager) {
+void ResetEnemies(EnemyManager *manager) {
   if (manager == NULL || manager->enemies == NULL) return;
-
-  memset(manager->enemies, 0, manager->capacity * sizeof(Enemy));
+  for(int i = 0; i < manager->capacity; i++) {
+    manager->enemies[i].isActive = false;
+    manager->enemies[i].health = 100;
+  }
   manager->activeCount = 0;
 }
 

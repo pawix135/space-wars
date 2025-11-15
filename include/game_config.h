@@ -21,5 +21,6 @@ GameConfig *CreateGameConfig();
 void TogglePause(GameConfig *config);
 void ToggleDebugMode(GameConfig *config);
 void ExitGame(GameConfig *config);
+void ResetConfig(GameConfig *config);
 void ChangeScene(GameConfig *config, GameScene newScene);
 void DestroyGameConfig(GameConfig *config);

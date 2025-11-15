@@ -15,7 +15,7 @@ GameConfig *CreateGameConfig() {
   return config;
 }
 
-void TogglePause(GameConfig *config) { config->paused = !config->paused; }
+void TogglePause(GameConfig *config) { config->paused = !config->paused; config->currentScene = config->paused ? SCENE_PAUSE : SCENE_GAMEPLAY; }
 
 void ToggleDebugMode(GameConfig *config) {
   config->debugMode = !config->debugMode;
@@ -23,6 +23,12 @@ void ToggleDebugMode(GameConfig *config) {
 
 void ChangeScene(GameConfig *config, GameScene newScene) {
   config->currentScene = newScene;
+}
+
+void ResetConfig(GameConfig *config){
+  config->deltaTime = 0.0f;
+  config->paused = false;
+  config->score = 0;
 }
 
 void ExitGame(GameConfig *config) { config->isRunning = false; }

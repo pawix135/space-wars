@@ -3,7 +3,7 @@
 
 typedef struct Sounds
 {
-  Sound shootSound;
+  Music backgroundSong;
 } Sounds;
 
 Sounds *InitializeSounds();

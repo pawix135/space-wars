@@ -5,9 +5,9 @@
 typedef struct WavePattern {
   int enemyCount;
   float spawnInterval;
-  float speedModifier;
   int enemyType;
   float waitTime;
+  float speed_modifier;
 } WavePattern;
 
 typedef struct WaveManager {
@@ -19,6 +19,6 @@ typedef struct WaveManager {
 } WaveManager;
 
 WaveManager *ZeroInitializeWaveManager();
-void UpdateWaveManager(WaveManager *wm, EnemyManager *em, GameWindow *gw,
-                       GameConfig *config);
+void UpdateWaveManager(WaveManager *wm, EnemyManager *em, GameWindow *gw, GameConfig *config);
+void RestartWaveManager(WaveManager *wm);
 void DestroyWaveManager(WaveManager *wm);

@@ -100,8 +100,6 @@ int GetActiveProjectileCount(Projectile *projectiles) {
   return count;
 }
 
-void CalculateProjectileHitbox(Projectile *projectile) {}
-
 void DestroyProjectiles(Projectile *projectiles) {
   if (projectiles != NULL) {
     free(projectiles);

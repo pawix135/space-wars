@@ -1,6 +1,7 @@
 #include "background_stars.h"
 #include "config.h"
 #include <stdlib.h>
+#include "raymath.h"
 
 Star *InitBackgroundStars(GameWindow *gw) {
   Star *stars = (Star *)malloc(sizeof(Star) * BACKGROUND_STAR_COUNT);
@@ -29,7 +30,9 @@ void UpdateBackgroundStarsOnResize(Star *stars, GameWindow *gw) {
 
 void UpdateBackgroundStars(Star *stars, GameWindow *gw, float dt) {
   for (int i = 0; i < BACKGROUND_STAR_COUNT; i++) {
-    stars[i].position.y += stars[i].speed * dt;
+    Vector2 movement = Vector2Scale((Vector2){0.0f, 1.0f}, stars[i].speed * dt);
+    stars[i].position = Vector2Add(stars[i].position, movement);
+
     if (stars[i].position.y > gw->windowH) {
       stars[i].position.y = 0;
       stars[i].position.x = GetRandomValue(0, gw->windowW);

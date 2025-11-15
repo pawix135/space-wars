@@ -6,3 +6,8 @@ Sound LoadWavSound(const unsigned char *data, unsigned int dataSize){
   UnloadWave(wave_buffer);
   return sound;
 }
+
+Music LoadWavMusic(const unsigned char *data, unsigned int dataSize){
+  Music music = LoadMusicStreamFromMemory(".wav", data, dataSize);
+  return music;
+}

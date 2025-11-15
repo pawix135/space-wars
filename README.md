@@ -2,12 +2,12 @@
 
 Library, tools and art
 - [Raylib v5.5](https://www.raylib.com/)
-- [Sounds from bgxr.net](https://www.bfxr.net/)
+- [Sounds from bfxr](https://www.bfxr.net/)
 - [Kenney's Assets](https://kenney.nl/assets/simple-space)
 - [Tsoding NoBuild(nob.h)](https://github.com/tsoding/nob.h)
 
 ## Build
-- Bootstrap the build system with `cc nob.c -o build`
+- Bootstrap the build system with `cc nob.c -o nbuild` or `clang nob.c -o nbuild`
 - Run the build executable
 
 ## Todo List
@@ -53,48 +53,33 @@ Library, tools and art
 - [ ] Implement a system to continuously **spawn new enemies** at random horizontal positions at the top of the screen.
 
 #### 8. Enemy Behavior
-- [ ] Implement the enemy's movement (e.g., moving straight down).
-- [ ] Display the active enemies on the screen.
-- [ ] Remove enemies once they travel off the bottom edge of the screen.
+- [x] Implement the enemy's movement (e.g., moving straight down).
+- [x] Display the active enemies on the screen.
+- [x] Remove enemies once they travel off the bottom edge of the screen.
 
 #### 9. Projectile-to-Enemy Interaction
-- [ ] Check for **collision** between all active projectiles and all active enemies.
-- [ ] On collision: Remove the projectile, and reduce the enemy's health.
-- [ ] If an enemy's health reaches zero, remove the enemy.
-
-#### 10. Player-to-Enemy Interaction
-- [ ] Check for **collision** between the player ship and all active enemies.
-- [ ] On collision: Remove the enemy and reduce the player's health.
-- [ ] Implement a **temporary invulnerability** period for the player after taking damage.
+- [x] Check for **collision** between all active projectiles and all active enemies.
+- [x] On collision: Remove the projectile, and reduce the enemy's health.
+- [x] If an enemy's health reaches zero, remove the enemy.
 
 ---
 
 ### Phase 4: User Experience & Polish
 
-#### 11. Heads-Up Display (HUD)
-- [ ] Implement a **Scoring System** that increases when enemies are destroyed.
-- [ ] Display the current **Score** and the player's remaining **Health** on the screen.
+#### 10. Heads-Up Display (HUD)
+- [x] Implement a **Scoring System** that increases when enemies are destroyed.
+- [x] Display the current **Score** and the player's remaining **Health** on the screen.
 
-#### 12. Game Flow & States
-- [ ] Define and manage distinct game states (e.g., **Title Screen**, **Playing**, **Game Over**).
-- [ ] Create a **Title Screen** where the game starts.
-- [ ] Create a **Game Over Screen** that displays the final score and allows the player to restart.
+#### 11. Game Flow & States
+- [x] Define and manage distinct game states (e.g., **Title Screen**, **Playing**, **Game Over**).
+- [x] Create a **Title Screen** where the game starts.
+- [x] Create a **Game Over Screen** that displays the final score and allows the player to restart.
 
-#### 13. Audio Feedback
-- [ ] Add **Background Music** to play during the game.
-- [ ] Add sound effects for player actions (e.g., **firing a weapon**).
-- [ ] Add sound effects for events (e.g., **explosions/hits**).
+#### 12. Audio Feedback
+- [x] Add **Background Music** to play during the game.
 
 ---
 
 ### Game Completion
-- [ ] Conduct playtesting and adjust game parameters (speed, health, spawn rates) for balanced difficulty.
-- [ ] Finalize asset loading and memory cleanup.
-
-
-## STUFF TO LEARN 🤗
-- Linear interpolation
-- Angles(Radians)
-- Trigonometry
-- Vectors
-- Matrices
+- [x] Conduct playtesting and adjust game parameters (speed, health, spawn rates) for balanced difficulty.
+- [x] Finalize asset loading and memory cleanup.

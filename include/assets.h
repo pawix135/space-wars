@@ -5,6 +5,7 @@
 typedef struct Assets {
   Sounds *sounds;
   Textures *textures;
+  Image iconImage;
 } Assets;
 
 Assets *InitializeAssets();

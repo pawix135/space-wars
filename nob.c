@@ -2,10 +2,10 @@
 #define NOB_EXPERIMENTAL_DELETE_OLD
 #include "nob.h"
 
-#if !defined(_MSC_VER)
-  #define OUT "space-wars"
+#if defined(_WIN32)
+    #define OUT "space-wars.exe"
 #else
-  #define OUT "space-wars.exe"
+  #define OUT "space-wars"
 #endif
 
 #define BUILD_FOLDER "build/"
@@ -20,26 +20,19 @@ int main(int argc, char **argv) {
   if (!nob_mkdir_if_not_exists(BUILD_FOLDER))
     return 1;
 
-#if !defined(_MSC_VER)
+#if !defined(_WIN32)
   nob_cmd_append(&cmd, "clang"); 
   nob_cmd_append(&cmd, "-Wall", "-Wextra", "-g", "-O3");
   nob_cmd_append(&cmd, "-Iinclude");
   nob_cmd_append(&cmd, "-L./lib"); 
   nob_cmd_append(&cmd, "-lraylib", "-framework", "CoreVideo", "-framework", "IOKit", "-framework", "Cocoa", "-framework", "GLUT", "-framework", "OpenGL");
-#else 
+#endif
+
+#if defined(_WIN32)
   nob_cc(&cmd);
   nob_cc_flags(&cmd);
-  nob_cmd_append(&cmd, "-Iinclude");
-  nob_cmd_append(&cmd, "-Llib");
-  nob_cmd_append(&cmd, "-g");
-  nob_cmd_append(&cmd, "-O0");
-  nob_cmd_append(&cmd, "-Llib");
-  nob_cmd_append(&cmd, "-lraylib");
-  nob_cmd_append(&cmd, "-lopengl32");
-  nob_cmd_append(&cmd, "-lgdi32");
-  nob_cmd_append(&cmd, "-lwinmm");
-  nob_cmd_append(&cmd, "-lm");
-  #endif
+  nob_cmd_append(&cmd, "game_icon.res");
+#endif
 
   nob_cc_output(&cmd, BUILD_FOLDER OUT);
 
@@ -57,10 +50,26 @@ int main(int argc, char **argv) {
   nob_cc_inputs(&cmd, SRC_FOLDER "assets.c");
   nob_cc_inputs(&cmd, SRC_FOLDER "sounds.c");
   nob_cc_inputs(&cmd, SRC_FOLDER "textures.c");
+  nob_cc_inputs(&cmd, SRC_FOLDER "button.c");
   nob_cc_inputs(&cmd, SRC_FOLDER "background_stars.c");
   nob_cc_inputs(&cmd, SRC_FOLDER "game.c");
   nob_cc_inputs(&cmd, SRC_FOLDER "main.c");
   
+#if defined(_WIN32)
+  nob_cmd_append(&cmd, "-Iinclude");
+  nob_cmd_append(&cmd, "-Llib");
+  // nob_cmd_append(&cmd, "-g");
+  nob_cmd_append(&cmd, "-O3");
+  // nob_cmd_append(&cmd, "-O1");
+  // nob_cmd_append(&cmd, "-Wl,--subsystem,windows");
+  nob_cmd_append(&cmd, "-Llib");
+  nob_cmd_append(&cmd, "-lraylib");
+  nob_cmd_append(&cmd, "-lopengl32");
+  nob_cmd_append(&cmd, "-lgdi32");
+  nob_cmd_append(&cmd, "-lwinmm");
+  nob_cmd_append(&cmd, "-lm");
+#endif
+
   if (!nob_cmd_run(&cmd))
     return 1;
 
