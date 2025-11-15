@@ -60,8 +60,6 @@ int main(int argc, char **argv) {
   nob_cmd_append(&cmd, "-Llib");
   // nob_cmd_append(&cmd, "-g");
   nob_cmd_append(&cmd, "-O3");
-  // nob_cmd_append(&cmd, "-O1");
-  // nob_cmd_append(&cmd, "-Wl,--subsystem,windows");
   nob_cmd_append(&cmd, "-Llib");
   nob_cmd_append(&cmd, "-lraylib");
   nob_cmd_append(&cmd, "-lopengl32");
