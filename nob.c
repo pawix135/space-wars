@@ -5,7 +5,7 @@
 #if defined(_WIN32)
     #define OUT "space-wars.exe"
 #else
-  #define OUT "space-wars"
+  #define OUT "Space Wars"
 #endif
 
 #define BUILD_FOLDER "build/"
@@ -22,9 +22,9 @@ int main(int argc, char **argv) {
 
 #if !defined(_WIN32)
   nob_cmd_append(&cmd, "clang"); 
-  nob_cmd_append(&cmd, "-Wall", "-Wextra", "-g", "-O3");
+  nob_cmd_append(&cmd, "-Wall", "-Wextra", "-O3");
   nob_cmd_append(&cmd, "-Iinclude");
-  nob_cmd_append(&cmd, "-L./lib"); 
+  nob_cmd_append(&cmd, "-L/Users/pawix/third-party/raylib/src"); 
   nob_cmd_append(&cmd, "-lraylib", "-framework", "CoreVideo", "-framework", "IOKit", "-framework", "Cocoa", "-framework", "GLUT", "-framework", "OpenGL");
 #endif
 
